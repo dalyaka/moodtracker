@@ -1,0 +1,35 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react"
+  ],
+  "env": {
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "globals": {
+    "__DEV__": true,
+    "fetch": true,
+    "navigator": true,
+    "FormData": true
+  } ,
+  "rules": {
+    "prettier/prettier": "error",
+    "no-console": ["off"],
+    "class-methods-use-this": ["off"],
+    "no-param-reassign": ["off"],
+    "no-underscore-dangle": ["off"],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+    "react/button-has-type": ["off"],
+    "react/destructuring-assignment": ["off"],
+    "react/prefer-stateless-function": ["off"],
+    "react/prop-types": [2, { "ignore": ["children", "navigation"] }]
+  },
+  "plugins": ["prettier", "flowtype", "react"]
+}
