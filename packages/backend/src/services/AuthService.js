@@ -1,4 +1,4 @@
-const { User, UserRole } = require('../model/User');
+const { User } = require('../model/User');
 const { ApiError } = require('../api/common');
 
 class AuthService {
@@ -26,7 +26,6 @@ class AuthService {
       login,
       password,
       name,
-      role: UserRole.User,
     });
     await user.save();
     return user.toDTO();

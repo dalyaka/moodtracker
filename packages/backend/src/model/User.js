@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 
 // const bcrypt = require('bcrypt');
 
-const UserRole = {
-  User: 'User',
-  Manager: 'Manager',
-};
-
 // const SALT_WORK_FACTOR = 10;
 
 const UserSchema = new mongoose.Schema({
@@ -25,11 +20,6 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "user name can't be empty"],
-  },
-  role: {
-    type: String,
-    enum: [UserRole.User, UserRole.Manager],
-    required: [true, "role can't be empty"],
   },
 });
 
@@ -73,7 +63,6 @@ UserSchema.methods.toDTO = function toDTO() {
     id: this._id,
     login: this.login,
     name: this.name,
-    role: this.role,
   };
 };
 
@@ -85,8 +74,6 @@ UserSchema.methods.smallDTO = function smallDTO() {
   };
 };
 
-UserSchema.statics.isManager = user => user.role === UserRole.Manager;
-
 const User = mongoose.model('User', UserSchema);
 
-module.exports = { User, UserRole };
+module.exports = { User };

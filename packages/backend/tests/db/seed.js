@@ -1,4 +1,4 @@
-const { User, UserRole } = require('../../src/model/User');
+const { User } = require('../../src/model/User');
 
 const db = require('../../src/model/db');
 const logger = require('../../src/middleware/logger');
@@ -8,14 +8,6 @@ const usr = {
   login: 'user',
   name: 'John Snow',
   password: '123',
-  role: UserRole.User,
-};
-
-const mgr = {
-  login: 'owner',
-  name: 'Iaroslav Sobolev',
-  password: '123',
-  role: UserRole.Manager,
 };
 
 const ensureUserExists = async userData => {
@@ -36,7 +28,7 @@ async function seed() {
   const mongoose = db.setup(config.get('db'), logger);
 
   try {
-    const users = [usr, mgr];
+    const users = [usr];
     await Promise.all(users.map(u => ensureUserExists(u)));
   } catch (e) {
     logger.error(e.toString());

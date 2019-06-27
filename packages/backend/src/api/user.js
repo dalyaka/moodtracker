@@ -20,15 +20,15 @@ usersRoute.get('/users/:id', (req, res) => {
 });
 
 usersRoute.post('/users', (req, res) => {
-  const { login, password, name, role } = req.body;
-  UserService.create(req.user, login, password, name, role)
+  const { login, password, name } = req.body;
+  UserService.create(req.user, login, password, name)
     .then(user => res.json({ user }))
     .catch(error => handleApiError(error, res));
 });
 
 usersRoute.post('/users/:id/edit', (req, res) => {
-  const { login, password, name, role } = req.body;
-  UserService.update(req.user, req.params.id, login, password, name, role)
+  const { login, password, name } = req.body;
+  UserService.update(req.user, req.params.id, login, password, name)
     .then(user => res.json({ user }))
     .catch(error => handleApiError(error, res));
 });

@@ -14,7 +14,7 @@ class UserService {
     return accounts.map(account => account.toDTO());
   }
 
-  static async create(user, login, password, name, role) {
+  static async create(user, login, password, name) {
     UserService.perm(user, 'You are not allowed to create new users');
 
     const existing = await User.findOne({ login }).exec();
@@ -22,7 +22,7 @@ class UserService {
       throw new ApiError(`User with login ${login} already exists`, 409);
     }
 
-    const props = { login, password, name, role };
+    const props = { login, password, name };
 
     const account = new User(props);
     await account.save();
@@ -30,7 +30,7 @@ class UserService {
     return account.toDTO();
   }
 
-  static async update(user, id, login, password, name, role) {
+  static async update(user, id, login, password, name) {
     UserService.perm(user, 'You are not allowed to modify user');
 
     const account = await User.findById(id);
@@ -40,9 +40,6 @@ class UserService {
     }
     if (name) {
       data.name = name;
-    }
-    if (role) {
-      data.role = role;
     }
     if (password) {
       data.password = password;
