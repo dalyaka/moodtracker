@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 
 const auth = require('./auth');
-const user = require('./user');
 
 function routes(app) {
   const publicRoot = path.join(__dirname, '..', '..', 'public');
@@ -11,7 +10,6 @@ function routes(app) {
   const v1 = new express.Router();
 
   v1.use(auth);
-  v1.use(user);
 
   app.use('/api/v1', v1);
 

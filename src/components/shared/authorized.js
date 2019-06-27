@@ -23,6 +23,9 @@ export default function authorized(Wrapped) {
 
     componentDidUpdate() {
       const { user, navigation } = this.props;
+      console.log(user);
+
+
       if (!user) {
         navigation.navigate('Splash');
       }
