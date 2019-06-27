@@ -1,0 +1,13 @@
+.git*
+node_modules
+.DS_Store
+.Spotlight-V100
+.Trashes
+.npm
+.settings/
+.node-gyp
+yarn.lock
+yarn-error.log
+npm-debug.log
+config/env/dev.json
+log/*

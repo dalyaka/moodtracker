@@ -1,10 +1,10 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.SafeAreaView`
-  padding-left: 10;
+export const Container = styled.View`
+  padding-top: 300;
+  padding-bottom: 20;
   display: flex;
-`;
-
-export const Header = styled.View`
-  color: #ff0000;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
 `;

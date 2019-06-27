@@ -1,0 +1,22 @@
+{
+  "name": "@moodtracker/backend",
+  "version": "0.0.1",
+  "description": "mood tracker app",
+  "main": "boot.js",
+  "author": "`Dalyaka",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.5.0",
+    "multer": "^1.4.1",
+    "nanoid": "^2.0.1",
+    "nconf": "^0.10.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "winston": "^3.2.1"
+  }
+}

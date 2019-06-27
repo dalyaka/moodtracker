@@ -7,16 +7,16 @@ import {
 import authorized from './shared/authorized';
 
 import Splash from './screens/auth/SplashScreen';
-// import Login from './screens/auth/LoginScreen';
-// import Signup from './screens/auth/SignupScreen';
+import Login from './screens/auth/LoginScreen';
+import Signup from './screens/auth/SignupScreen';
 
 import Root from './screens/Root';
 
 const AuthRoot = createStackNavigator(
   {
     Splash,
-    // Login,
-    // Signup,
+    Login,
+    Signup,
   },
   {
     initialRouteName: 'Splash',

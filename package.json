@@ -1,6 +1,7 @@
 {
   "name": "moodtracker",
   "version": "0.0.1",
+  "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
@@ -10,7 +11,12 @@
       "./assets/fonts/"
     ]
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {
+    "@react-native-community/async-storage": "^1.5.0",
+    "lerna": "^3.15.0",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
     "react-native": "0.59.9",
