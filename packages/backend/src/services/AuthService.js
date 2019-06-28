@@ -17,7 +17,7 @@ class AuthService {
     return user.toDTO();
   }
 
-  static async signup(login, password, name) {
+  static async signup(login, password) {
     const existing = await User.findOne({ login }).exec();
     if (existing) {
       throw new ApiError('User with this login already exists', 200);
@@ -25,7 +25,6 @@ class AuthService {
     const user = new User({
       login,
       password,
-      name,
     });
     await user.save();
     return user.toDTO();

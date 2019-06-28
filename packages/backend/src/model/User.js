@@ -17,10 +17,6 @@ const UserSchema = new mongoose.Schema({
     required: [true, "password can't be empty"],
     select: false,
   },
-  name: {
-    type: String,
-    required: [true, "user name can't be empty"],
-  },
 });
 
 // UserSchema.pre('save', function preSave(next) {
@@ -62,7 +58,6 @@ UserSchema.methods.toDTO = function toDTO() {
   return {
     id: this._id,
     login: this.login,
-    name: this.name,
   };
 };
 
@@ -70,7 +65,6 @@ UserSchema.methods.smallDTO = function smallDTO() {
   return {
     id: this._id,
     login: this.login,
-    name: this.name,
   };
 };
 

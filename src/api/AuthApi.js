@@ -6,8 +6,8 @@ export class AuthApi extends BaseApi {
   login = ({ login, password }) =>
     this.post('/auth/login', { login, password });
 
-  signup = ({ login, password, name }) =>
-    this.post('/auth/signup', { login, password, name });
+  signup = ({ login, password }) =>
+    this.post('/auth/signup', { login, password });
 
   logout = () => this.post('/auth/logout');
 }

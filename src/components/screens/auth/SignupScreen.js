@@ -34,7 +34,6 @@ class Signup extends Component {
   state = {
     login: '',
     password: '',
-    name: '',
     error: null,
   };
 
@@ -45,16 +44,8 @@ class Signup extends Component {
     }
   }
 
-  handleChangeLogin = login => {
-    this.setState({ login });
-  };
-
-  handleChangePassword = password => {
-    this.setState({ password });
-  };
-
-  handleChangeName = name => {
-    this.setState({ name });
+  handleChangeInput = (filed, value) => {
+    this.setState({ [filed]: value });
   };
 
   handleError = ({ error }) => {
@@ -62,38 +53,30 @@ class Signup extends Component {
   };
 
   handleSignupClick = () => {
-    const { login, password, name } = this.state;
-    this.props.signupUser({ login, password, name });
+    const { login, password } = this.state;
+    this.props.signupUser({ login, password });
   };
 
   render() {
     const { submitState } = this.props;
-    const { login, password, name, error } = this.state;
+    const { login, password, error } = this.state;
     const loading = submitState.state === RequestStates.Fetching;
     return (
       <KeyboardAvoidingView>
         <SafeAreaView>
           <Container>
             <Input
-              placeholder="Имя"
-              autoCorrect={false}
-              autoCapitalize="none"
-              autoComplete="none"
-              onChangeText={this.handleChangeName}
-              value={name}
-            />
-            <Input
-              placeholder="Никнейм"
+              placeholder="Email"
               autoCorrect={false}
               autoCapitalize="none"
               autoComplete="email"
-              onChangeText={this.handleChangeLogin}
+              onChangeText={value => this.handleChangeInput('login', value)}
               value={login}
             />
             <Input
               placeholder="Пароль"
               secureTextEntry
-              onChangeText={this.handleChangePassword}
+              onChangeText={value => this.handleChangeInput('password', value)}
               value={password}
             />
             <View>{error && <Text>{error}</Text>}</View>

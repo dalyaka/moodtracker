@@ -39,19 +39,13 @@ class Login extends Component {
 
   componentDidUpdate({ user: prevUser }) {
     const { user, navigation } = this.props;
-    console.log(user);
-
     if (user && prevUser !== user) {
       navigation.navigate('Main');
     }
   }
 
-  handleChangeLogin = login => {
-    this.setState({ login });
-  };
-
-  handleChangePassword = password => {
-    this.setState({ password });
+  handleChangeInput = (field, value) => {
+    this.setState({ [field]: value });
   };
 
   handleError = ({ error }) => {
@@ -79,13 +73,13 @@ class Login extends Component {
               autoCorrect={false}
               autoCapitalize="none"
               autoComplete="email"
-              onChangeText={this.handleChangeLogin}
+              onChangeText={value => this.handleChangeInput('login', value)}
               value={login}
             />
             <Input
               placeholder="Пароль"
               secureTextEntry
-              onChangeText={this.handleChangePassword}
+              onChangeText={value => this.handleChangeInput('password', value)}
               value={password}
             />
             <View>{error && <Text>{error}</Text>}</View>
