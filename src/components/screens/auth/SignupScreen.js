@@ -1,14 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Button,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { SafeAreaView, Button, KeyboardAvoidingView } from 'react-native';
 
 import { signupUser } from '../../../sagas/authSagas';
 import { signupStateSelector } from '../../../selectors/ui';
@@ -23,78 +17,56 @@ const mapStateToProps = state => ({
   user: userSelector(state),
 });
 
-class Signup extends Component {
-  static propTypes = {
-    submitState: PropTypes.shape({}).isRequired,
-    signupUser: PropTypes.func.isRequired,
-    user: PropTypes.shape({}),
-    navigation: PropTypes.shape({}).isRequired,
-  };
+function Signup({ submitState, signupUser, user, navigation }) {
+  useEffect(() => {
+    if (user) navigation.navigate('Main');
+  }, user);
 
-  state = {
-    login: '',
-    password: '',
-    error: null,
-  };
-
-  componentDidUpdate({ user: prevUser }) {
-    const { user, navigation } = this.props;
-    if (user && prevUser !== user) {
-      navigation.navigate('Main');
+  function singupClick() {
+    if (submitState.state !== RequestStates.Fetching) {
+      signupUser({ login, password });
     }
   }
 
-  handleChangeInput = (filed, value) => {
-    this.setState({ [filed]: value });
-  };
+  const [login, changeLogin] = useState('');
+  const [password, changePassword] = useState('');
 
-  handleError = ({ error }) => {
-    this.setState({ error });
-  };
-
-  handleSignupClick = () => {
-    const { login, password } = this.state;
-    this.props.signupUser({ login, password });
-  };
-
-  render() {
-    const { submitState } = this.props;
-    const { login, password, error } = this.state;
-    const loading = submitState.state === RequestStates.Fetching;
-    return (
-      <KeyboardAvoidingView>
-        <SafeAreaView>
-          <Container>
-            <Input
-              placeholder="Email"
-              autoCorrect={false}
-              autoCapitalize="none"
-              autoComplete="email"
-              onChangeText={value => this.handleChangeInput('login', value)}
-              value={login}
-            />
-            <Input
-              placeholder="Пароль"
-              secureTextEntry
-              onChangeText={value => this.handleChangeInput('password', value)}
-              value={password}
-            />
-            <View>{error && <Text>{error}</Text>}</View>
-            <Button
-              disabled={loading}
-              onPress={this.handleSignupClick}
-              title={loading ? 'Зарегестироваться...' : 'Зарегестироваться'}
-            />
-          </Container>
-          {/* <SubmitStateEffect
-          submitState={submitState}
-          onFailed={this.handleError}
-        /> */}
-        </SafeAreaView>
-      </KeyboardAvoidingView>
-    );
-  }
+  const loading = submitState.state === RequestStates.Fetching;
+  return (
+    <KeyboardAvoidingView>
+      <SafeAreaView>
+        <Container>
+          <Input
+            placeholder="Email"
+            autoCorrect={false}
+            autoCapitalize="none"
+            autoComplete="email"
+            onChangeText={value => changeLogin(value)}
+            value={login}
+          />
+          <Input
+            placeholder="Пароль"
+            secureTextEntry
+            onChangeText={value => changePassword(value)}
+            value={password}
+          />
+          <Button
+            disabled={loading}
+            onPress={singupClick}
+            title={loading ? 'Зарегестироваться...' : 'Зарегестироваться'}
+          />
+        </Container>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
+  );
 }
+
+Signup.propTypes = {
+  submitState: PropTypes.shape({}).isRequired,
+  signupUser: PropTypes.func.isRequired,
+  user: PropTypes.shape({}),
+  navigation: PropTypes.shape({}).isRequired,
+};
 
 export default connect(
   mapStateToProps,

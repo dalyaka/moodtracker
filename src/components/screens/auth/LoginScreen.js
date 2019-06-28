@@ -1,14 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  SafeAreaView,
-  View,
-  Text,
-  Button,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { SafeAreaView, Button, KeyboardAvoidingView } from 'react-native';
 
 import { loginUser } from '../../../sagas/authSagas';
 import { loginStateSelector } from '../../../selectors/ui';
@@ -23,77 +17,56 @@ const mapStateToProps = state => ({
   user: userSelector(state),
 });
 
-class Login extends Component {
-  static propTypes = {
-    submitState: PropTypes.shape({}).isRequired,
-    loginUser: PropTypes.func.isRequired,
-    user: PropTypes.shape({}),
-    navigation: PropTypes.shape({}).isRequired,
-  };
+function Login({ submitState, loginUser, user, navigation }) {
+  const [login, changeLogin] = useState('');
+  const [password, changePassword] = useState('');
 
-  state = {
-    login: '',
-    password: '',
-    error: null,
-  };
-
-  componentDidUpdate({ user: prevUser }) {
-    const { user, navigation } = this.props;
-    if (user && prevUser !== user) {
-      navigation.navigate('Main');
-    }
-  }
-
-  handleChangeInput = (field, value) => {
-    this.setState({ [field]: value });
-  };
-
-  handleError = ({ error }) => {
-    this.setState({ error });
-  };
-
-  handleLoginClick = () => {
-    const { submitState } = this.props;
-    const { login, password } = this.state;
+  function loginClick() {
     if (submitState.state !== RequestStates.Fetching) {
-      this.props.loginUser(login, password);
+      loginUser(login, password);
     }
-  };
-
-  render() {
-    const { submitState } = this.props;
-    const { login, password, error } = this.state;
-    const loading = submitState.state === RequestStates.Fetching;
-    return (
-      <KeyboardAvoidingView>
-        <SafeAreaView>
-          <Container>
-            <Input
-              placeholder="Логин"
-              autoCorrect={false}
-              autoCapitalize="none"
-              autoComplete="email"
-              onChangeText={value => this.handleChangeInput('login', value)}
-              value={login}
-            />
-            <Input
-              placeholder="Пароль"
-              secureTextEntry
-              onChangeText={value => this.handleChangeInput('password', value)}
-              value={password}
-            />
-            <View>{error && <Text>{error}</Text>}</View>
-            <Button
-              disabled={loading}
-              onPress={this.handleLoginClick}
-              title={loading ? 'Войти ...' : 'Войти'}
-            />
-          </Container>
-        </SafeAreaView>
-      </KeyboardAvoidingView>
-    );
   }
+
+  useEffect(() => {
+    if (user) navigation.navigate('Main');
+  }, user);
+
+  const loading = submitState.state === RequestStates.Fetching;
+  return (
+    <KeyboardAvoidingView>
+      <SafeAreaView>
+        <Container>
+          <Input
+            placeholder="Логин"
+            autoCorrect={false}
+            autoCapitalize="none"
+            autoComplete="email"
+            onChangeText={value => changeLogin(value)}
+            value={login}
+          />
+          <Input
+            placeholder="Пароль"
+            secureTextEntry
+            onChangeText={value => changePassword(value)}
+            value={password}
+          />
+          <Button
+            disabled={loading}
+            onPress={loginClick}
+            title={loading ? 'Войти ...' : 'Войти'}
+          />
+        </Container>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
+  );
 }
+
+Login.propTypes = {
+  submitState: PropTypes.shape({}).isRequired,
+  loginUser: PropTypes.func.isRequired,
+  user: PropTypes.shape({}),
+  navigation: PropTypes.shape({}).isRequired,
+};
 
 export default connect(
   mapStateToProps,

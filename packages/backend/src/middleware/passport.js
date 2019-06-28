@@ -16,7 +16,7 @@ passport.use(
       passReqToCallback: true,
     },
     (req, login, password, done) => {
-      AuthService.signup(login, password, req.body.name)
+      AuthService.signup(login, password)
         .then(registered => {
           if (registered) {
             done(null, registered);
