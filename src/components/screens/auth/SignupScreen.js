@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { SafeAreaView, Button, KeyboardAvoidingView } from 'react-native';
 
@@ -12,24 +12,24 @@ import { RequestStates } from '../../../common/requestState';
 
 import { Container, Input } from './styles';
 
-const mapStateToProps = state => ({
-  submitState: signupStateSelector(state),
-  user: userSelector(state),
-});
+export default function Signup({ navigation }) {
+  const dispatch = useDispatch();
 
-function Signup({ submitState, signupUser, user, navigation }) {
-  useEffect(() => {
-    if (user) navigation.navigate('Main');
-  }, user);
-
-  function singupClick() {
-    if (submitState.state !== RequestStates.Fetching) {
-      signupUser({ login, password });
-    }
-  }
+  const submitState = useSelector(signupStateSelector);
+  const user = useSelector(userSelector);
 
   const [login, changeLogin] = useState('');
   const [password, changePassword] = useState('');
+
+  const singupClick = useCallback(() => {
+    if (submitState.state !== RequestStates.Fetching) {
+      dispatch(signupUser({ login, password }));
+    }
+  }, [login, password]);
+
+  useEffect(() => {
+    if (user) navigation.navigate('Main');
+  }, user);
 
   const loading = submitState.state === RequestStates.Fetching;
   return (
@@ -62,13 +62,5 @@ function Signup({ submitState, signupUser, user, navigation }) {
 }
 
 Signup.propTypes = {
-  submitState: PropTypes.shape({}).isRequired,
-  signupUser: PropTypes.func.isRequired,
-  user: PropTypes.shape({}),
   navigation: PropTypes.shape({}).isRequired,
 };
-
-export default connect(
-  mapStateToProps,
-  { signupUser }
-)(Signup);

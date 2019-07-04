@@ -1,13 +1,31 @@
-import { createBottomTabNavigator } from 'react-navigation';
+import {
+  createBottomTabNavigator,
+  createStackNavigator,
+} from 'react-navigation';
 
-import Calendar from './Calendar';
 import Home from './Home';
 import User from './User';
+import Calendar from './Calendar';
+
+const CalendarNavigator = createStackNavigator(
+  {
+    Calendar: {
+      screen: Calendar,
+    },
+    Day: {
+      screen: Home,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);
 
 export default createBottomTabNavigator(
   {
     Calendar: {
-      screen: Calendar,
+      screen: CalendarNavigator,
       navigationOptions: {
         tabBarLabel: 'Calendar',
       },

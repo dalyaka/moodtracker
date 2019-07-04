@@ -19,3 +19,7 @@ export const authActionTypes = {
   GET_COMPLETE: 'auth/GET_COMPLETE',
   GET_FAILED: 'auth/GET_FAILED',
 };
+
+export const calendarActionTypes = {
+  CHANGE_INDEX: 'CHANGE_INDEX',
+};
