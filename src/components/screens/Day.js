@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Button, SafeAreaView } from 'react-native';
+
 import Day from '../shared/Day';
 
 import { changeIndex, changeDate } from '../../sagas/dateSagas';
@@ -23,11 +25,16 @@ export default function Home({ navigation }) {
   const changed = useSelector(arrayChangedDateSelector);
 
   return (
-    <Day
-      changed={changed}
-      date={date}
-      changeIndex={changeIndex}
-      array={array}
-    />
+    <SafeAreaView
+      style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+    >
+      <Button title="< Назад" onPress={() => navigation.navigate('Calendar')} />
+      <Day
+        changed={changed}
+        date={date}
+        changeIndex={changeIndex}
+        array={array}
+      />
+    </SafeAreaView>
   );
 }

@@ -1,16 +1,25 @@
-import { format, addDays } from 'date-fns';
+import { format, addDays, differenceInCalendarDays } from 'date-fns';
 import { calendarActionTypes, dateActionTypes } from '../sagas/actionTypes';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const today = format(new Date(), DATE_FORMAT);
 const HALF_DAYS = 9;
 
-const range = size => [...new Array(size).keys()];
+const differenceInDays = date => {
+  return differenceInCalendarDays(new Date(today), new Date(date));
+};
+
+const range = size => (size ? [...new Array(size).keys()] : []);
+
 const getArray = day => {
+  const difference = differenceInDays(day);
+
   return [
     ...range(10).map((_, i) => format(addDays(day, -10 + i), DATE_FORMAT)),
     day,
-    ...range(10).map((_, i) => format(addDays(day, 1 + i), DATE_FORMAT)),
+    ...range(difference < 10 ? difference : 10).map((_, i) =>
+      format(addDays(day, 1 + i), DATE_FORMAT)
+    ),
   ];
 };
 
@@ -27,8 +36,11 @@ export const makeCalendarReducer = (indexAction, dateAction) => (
   switch (action.type) {
     case indexAction: {
       const { index } = action.payload;
-      const { day, changed } = state;
-      if (index === 1 || index === 19) {
+      const { day, changed, array } = state;
+      if (
+        (index === 1 || index === state.array.length - 1) &&
+        array[index] !== today
+      ) {
         const addedDays = index === 1 ? -HALF_DAYS : HALF_DAYS;
         return {
           array: getArray(format(addDays(day, addedDays), DATE_FORMAT)),
