@@ -1,12 +1,12 @@
-import { calendarActionTypes } from './actionTypes';
+import { dateActionTypes } from './actionTypes';
 
 // eslint-disable-next-line import/prefer-default-export
 export const changeIndex = index => ({
-  type: calendarActionTypes.CHANGE_INDEX,
+  type: dateActionTypes.CHANGE_INDEX,
   payload: { index },
 });
 
 export const changeDate = date => ({
-  type: calendarActionTypes.CHANGE_DATE,
+  type: dateActionTypes.CHANGE_DATE,
   payload: { date },
 });

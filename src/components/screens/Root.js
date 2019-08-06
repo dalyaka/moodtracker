@@ -6,6 +6,7 @@ import {
 import Home from './Home';
 import User from './User';
 import Calendar from './Calendar';
+import Day from './Day';
 
 const CalendarNavigator = createStackNavigator(
   {
@@ -13,7 +14,7 @@ const CalendarNavigator = createStackNavigator(
       screen: Calendar,
     },
     Day: {
-      screen: Home,
+      screen: Day,
     },
   },
   {

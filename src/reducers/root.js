@@ -2,10 +2,11 @@ import { combineReducers } from 'redux';
 
 import ui from './ui';
 import user from './authReducer';
-import calendar from './calendarReducer';
+import { calendarReducer, dateReducer } from './calendarReducer';
 
 export default combineReducers({
   user,
   ui,
-  calendar,
+  calendar: calendarReducer,
+  date: dateReducer,
 });

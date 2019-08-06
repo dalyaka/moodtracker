@@ -1,8 +1,8 @@
 import { format, addDays } from 'date-fns';
-import { calendarActionTypes } from '../sagas/actionTypes';
+import { calendarActionTypes, dateActionTypes } from '../sagas/actionTypes';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
-const today = format(new Date(), 'YYYY-MM-DD');
+const today = format(new Date(), DATE_FORMAT);
 const HALF_DAYS = 9;
 
 const range = size => [...new Array(size).keys()];
@@ -20,24 +20,45 @@ const initialState = {
   changed: false,
 };
 
-export default function calendarReducer(state = initialState, action) {
+export const makeCalendarReducer = (indexAction, dateAction) => (
+  state = initialState,
+  action
+) => {
   switch (action.type) {
-    case calendarActionTypes.CHANGE_INDEX: {
+    case indexAction: {
       const { index } = action.payload;
       const { day, changed } = state;
       if (index === 1 || index === 19) {
         const addedDays = index === 1 ? -HALF_DAYS : HALF_DAYS;
         return {
-          array: getArray(format(addDays(day, addedDays), 'YYYY-MM-DD')),
-          day: format(addDays(day, addedDays), 'YYYY-MM-DD'),
+          array: getArray(format(addDays(day, addedDays), DATE_FORMAT)),
+          day: format(addDays(day, addedDays), DATE_FORMAT),
           changed: !changed,
         };
       }
-
       return state;
     }
+    case dateAction: {
+      const date = format(new Date(action.payload.date), DATE_FORMAT);
+      return {
+        day: date,
+        array: getArray(date),
+        changed: false,
+      };
+    }
+
     default:
       break;
   }
   return state;
-}
+};
+
+export const calendarReducer = makeCalendarReducer(
+  calendarActionTypes.CHANGE_INDEX,
+  calendarActionTypes.CHANGE_DATE
+);
+
+export const dateReducer = makeCalendarReducer(
+  dateActionTypes.CHANGE_INDEX,
+  dateActionTypes.CHANGE_DATE
+);

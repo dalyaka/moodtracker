@@ -22,4 +22,10 @@ export const authActionTypes = {
 
 export const calendarActionTypes = {
   CHANGE_INDEX: 'CHANGE_INDEX',
+  CHANGE_DATE: 'CHANGE_DATE',
+};
+
+export const dateActionTypes = {
+  CHANGE_INDEX: 'DATE_CHANGE_INDEX',
+  CHANGE_DATE: 'DATE_CHANGE_DATE',
 };
